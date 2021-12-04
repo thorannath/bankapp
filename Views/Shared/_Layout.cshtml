@@ -1,0 +1,467 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - bankApp</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" />
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <div class='header'>
+                    <h2 class='text-center'>Bank Application</h2>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - bankApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">CS673</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function () {
+            $("#deposit").hide();
+            $("#withdraw").hide();
+            $("#Customers").hide();
+            $('#newAccount').hide();
+            $('#usercheck').hide();
+            $("#updateTab").hide();
+            $("#transactionbody").hide();
+            $("#deleteTab").hide();
+            let usernameError = true;
+
+        });
+
+        $("#btnDeposit").click(function () {
+            $("#deposit").show();
+            $("#btnCust").removeClass('active');
+            $("#btnAccount").removeClass('active');
+            $("#btnDeposit").addClass('active');
+            $("#btnWithdraw").removeClass('active');
+            $("#btnNew").removeClass('active');
+            $("#Customers").hide();
+            $("#withdraw").hide();
+            $("#transactionbody").hide();
+            $('#newAccount').hide();
+        });
+        $("#btnWithdraw").click(function () {
+            $("#deposit").hide();
+            $("#btnCust").removeClass('active');
+            $("#btnAccount").removeClass('active');
+            $("#btnWithdraw").addClass('active');
+            $("#btnDeposit").removeClass('active');
+            $("#btnNew").removeClass('active');
+            $("#Customers").hide();
+            $("#transactionbody").hide();
+            $("#withdraw").show();
+            $('#newAccount').hide();
+
+        });
+
+
+
+
+
+
+        $("#btnCust").click(function () {
+            $("#btnCust").addClass('active');
+            $("#btnAccount").removeClass('active');
+            $("#btnDeposit").removeClass('active');
+            $("#btnWithdraw").removeClass('active');
+            $("#btnNew").removeClass('active');
+            $("#deposit").hide();
+            $("#withdraw").hide();
+            $("#Customers").show();
+
+            $('#newAccount').hide();
+            $("#deleteTab").hide();
+            $("#updateTab").hide();
+            $("#transactionbody").hide();
+            customersList();
+
+        });
+
+        $("#btnAccount").click(function () {
+            $("#btnAccount").addClass('active');
+            $("#btnCust").removeClass('active');
+            $("#btnDeposit").removeClass('active');
+            $("#btnWithdraw").removeClass('active');
+            $("#btnNew").removeClass('active');
+            $("#deposit").hide();
+            $("#withdraw").hide();
+            $("#Customers").hide();
+            $('#newAccount').hide();
+            $("#deleteTab").hide();
+            $("#updateTab").hide();
+            $("#transactionbody").show();
+        });
+
+        $("#custTrans").click(function () {
+            var acntno = $("#transAcntno").val();
+            $.ajax({
+                type: "POST",
+                url: "@(Url.Action("GetTrans", "Bank"))",
+                data: { "AccountID": acntno }
+            }).done(function (response) {
+
+
+                var dataT = JSON.parse(response);
+                $('#transactionTable').DataTable({
+                    destroy: true,
+                    data: dataT,
+                    columns: [
+                        { data: "T_ID" },
+                        { data: "AccountID" },
+                        { data: "DATE_TIME" },
+                        { data: "TransactionCode" },
+                        { data: "TransactionName" },
+                        { data: "debits" },
+                        { data: "credits" },
+                        { data: "balance" }
+
+
+                    ]
+                });
+
+
+            }).fail(function () {
+                alert("error");
+
+            })
+
+        });
+
+
+        function customersList() {
+            $.ajax({
+                type: "POST",
+                url: "@(Url.Action("GetCust", "Bank"))"
+            }).done(function (response) {
+
+
+                var dataT = JSON.parse(response);
+                $('#CustomerTable').DataTable({
+                    destroy: true,
+                    data: dataT,
+                    columns: [
+                        { data: "SSN" },
+                        { data: "FirstName" },
+                        { data: "LastName" },
+                        { data: "City" },
+                        { data: "FlatNo" },
+                        { data: "phone" },
+                        { data: "BankerSSN" },
+                        { data: "AccountID" }
+
+
+                    ]
+                });
+
+
+            }).fail(function () {
+                alert("error");
+
+            })
+        };
+
+        $("#deleteCustomer").click(function () {
+            var ssn = $("#deleteSSN").val();
+            $.ajax({
+
+                type: "POST",
+                url: "@(Url.Action("deleteCustomer", "Bank"))",
+
+                data: {
+                    'ssn': ssn,
+                }
+            }).done(function () {
+
+                alert("deleted Customer");
+                customersList();
+
+
+            }).fail(function () {
+                alert("error");
+
+            })
+        });
+
+
+        $("#printLock").click(function () {
+            var actno = $("#transAcntno").val();
+            $.ajax({
+
+                type: "POST",
+                url: "@(Url.Action("PrintTrans", "Bank"))",
+
+                data: {
+                    'AccountID': actno,
+                }
+            }).done(function () {
+
+                alert("transactions printed");
+
+
+
+            }).fail(function () {
+                alert("error");
+
+            })
+
+
+        });
+
+        $("#btnNew").click(function () {
+
+            $("#btnNew").addClass('active');
+            $("#btnAccount").removeClass('active');
+            $("#btnDeposit").removeClass('active');
+            $("#btnWithdraw").removeClass('active');
+            $("#btnCust").removeClass('active');
+            $("#deposit").hide();
+            $("#transactionbody").hide();
+            $("#withdraw").hide();
+            $("#Customers").hide();
+            $('#newAccount').show();
+        });
+        $("#btnDeposited").click(function () {
+            var acnt = $("#depAcnt").val();
+            var amnt = $("#depAmnt").val();
+            $.ajax({
+
+                type: "POST",
+                url: "@(Url.Action("DepositAmount", "Bank"))",
+
+                data: {
+                    'Account': acnt, 'Amount': amnt
+                }
+            }).done(function () {
+
+                alert("amount Deposited");
+
+
+
+            }).fail(function () {
+                alert("error");
+
+            })
+        });
+
+
+        $("#btnWithdrawn").click(function () {
+            var acnt = $("#withAcnt").val();
+            var amnt = $("#withAmnt").val();
+            $.ajax({
+                type: "POST",
+                url: "@(Url.Action("GetBalance", "Bank"))",
+                data: { "AcntID": acnt }
+            }).done(function (response) {
+
+
+                var datares = JSON.parse(response);
+                var bal = parseInt(datares[0].balance);
+                if (bal >= amnt) {
+                    $.ajax({
+
+                        type: "POST",
+                        url: "@(Url.Action("WithdrawAmount", "Bank"))",
+
+                        data: {
+                            'Account': acnt, 'Amount': amnt
+                        }
+                    }).done(function () {
+
+                        alert("amount Withdrawn");
+
+                    }).fail(function () {
+                        alert("error");
+
+                    })
+                }
+                else {
+                    alert("insufficient balance");
+                }
+
+
+            }).fail(function () {
+                alert(" balance check error");
+
+            })
+
+
+        });
+
+
+        $("#btncheckDep").click(function () {
+            var acnt = $("#depAcnt").val();
+            $.ajax({
+                type: "POST",
+                url: "@(Url.Action("GetBalance", "Bank"))",
+                data: { "AcntID": acnt }
+            }).done(function (response) {
+
+
+                var datares = JSON.parse(response);
+                alert("Balance :" + parseInt(datares[0].balance));
+
+
+            }).fail(function () {
+                alert(" balance check error");
+
+            })
+
+
+        });
+        $("#btncheckWith").click(function () {
+            var acnt = $("#withAcnt").val();
+            $.ajax({
+                type: "POST",
+                url: "@(Url.Action("GetBalance", "Bank"))",
+                data: { "AcntID": acnt }
+            }).done(function (response) {
+
+
+                var datares = JSON.parse(response);
+                alert("Balance :" + parseInt(datares[0].balance));
+
+
+            }).fail(function () {
+                alert(" balance check error");
+
+            })
+
+
+        });
+
+
+        $('#newdeposit').keyup(function () {
+            validatenewdeposit();
+        });
+
+        function validatenewdeposit() {
+            let newdepositValue = parseFloat($('#newdeposit').val());
+            if (newdepositValue <= 499.9) {
+                $('#usercheck').show();
+                $('#usercheck').html
+                    ("****minimum deposit of 500");
+                usernameError = false;
+                return false;
+            }
+            else {
+                $('#usercheck').hide();
+                usernameError = true;
+            }
+        };
+        $("#updateCustomer").click(function () {
+            var ssn = $("#uSSN").val();
+            var first = $("#ufirstname").val();
+            var last = $("#ulastname").val();
+            var city = $("#ucity").val();
+            var street = $("#ustreet").val();
+            var phone = $("#uphone").val();
+            var banker = $("#uBankerSSN").val();
+            var accountno = $("#uAccountno").val();
+            $.ajax({
+
+                type: "POST",
+                url: "@(Url.Action("UpdateCustomer", "Bank"))",
+
+                data: {
+                    'ssn': ssn, 'first': first, 'last': last, 'city': city,
+                    'flat': street, 'phone': phone, 'bankssn': banker, 'AccountID': accountno
+                }
+            }).done(function () {
+
+                alert("success modified customer ");
+                customersList();
+            }).fail(function () {
+                alert("error");
+
+            })
+
+
+
+        });
+
+
+        $("#navDelete").click(function () {
+            $("#deleteTab").show();
+            $("#updateTab").hide();
+            $("#navDelete").addClass("active");
+            $("#navUpdate").removeClass("active")
+        });
+
+
+        $("#navUpdate").click(function () {
+            $("#updateTab").show();
+            $("#deleteTab").hide();
+            $("#navUpdate").addClass("active");
+            $("#navDelete").removeClass("active")
+        });
+
+
+
+
+
+        $('#submitbtn').click(function () {
+            validatenewdeposit();
+
+            if (usernameError == true) {
+                var ssn = $("#SSN").val();
+                var first = $("#firstname").val();
+                var last = $("#lastname").val();
+                var city = $("#city").val();
+                var street = $("#street").val();
+                var phone = $("#phone").val();
+                var banker = $("#BankerSSN").val();
+                var accountno = $("#Accountno").val();
+                var amountDep = $("#newdeposit").val();
+                $.ajax({
+
+                    type: "POST",
+                    url: "@(Url.Action("InsertCustomer", "Bank"))",
+
+                    data: {
+                        'ssn': ssn, 'first': first, 'last': last, 'city': city,
+                        'flat': street, 'phone': phone, 'bankssn': banker, 'AccountID': accountno, 'amnt': amountDep
+                    }
+                }).done(function () {
+
+                    alert("success customer added");
+
+
+
+                }).fail(function () {
+                    alert("error");
+
+                })
+
+            } else {
+                $('#usercheck').show();
+
+            }
+        });
+
+
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

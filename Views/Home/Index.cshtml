@@ -1,0 +1,243 @@
+﻿<ul class="nav nav-pills nav-fill">
+    <li class="nav-item">
+        <button id='btnDeposit' class="nav-link " href="#">DEPOSIT</button>
+    </li>
+    <li class="nav-item">
+        <button id='btnWithdraw' class="nav-link" href="#">WITHDRAW</button>
+    </li>
+    <li class="nav-item">
+        <button id='btnCust' class="nav-link" href="#">Customers List</button>
+    </li>
+    <li class="nav-item">
+        <button id='btnAccount' class="nav-link " href="#">PASSBOOK</button>
+    </li>
+    <li class="nav-item">
+        <button id='btnNew' class="nav-link " href="#">NEW ACCOUNT</button>
+    </li>
+</ul>
+<div id='deposit' class="card-body">
+
+    <h3>amount can be deposited for bank account holders</h3>
+    <div class='form-group m-2'>
+        <label>ACCOUNT NO</label>
+        <input class="form-control" type="text" id="depAcnt" value="">
+        <div class="m-2">
+            <button class="btn btn-secondary" id="btncheckDep"> Running balance</button>
+        </div>
+    </div>
+    <div class='form-group m-2'>
+        <label>DEPOSIT AMOUNT</label>
+        <input class="form-control" id="depAmnt" type="text" value="">
+    </div>
+    <div>
+        <button class="btn btn-primary" id="btnDeposited">DEPOSIT</button>
+    </div>
+
+
+</div>
+<div id="withdraw" class="card-body">
+
+    <h3>amount can be withdrawn from bank account holders only</h3>
+    <div class='form-group m-2'>
+        <label>ACCOUNT NO</label>
+        <input class="form-control" type="text" value="" id="withAcnt">
+        <div class="m-2">
+            <button class="btn btn-secondary" id="btncheckWith"> Running balance</button>
+        </div>
+    </div>
+    <div class='form-group m-2'>
+        <label>WITHDRAW AMOUNT</label>
+        <input class="form-control" id="withAmnt" type="text" value="">
+    </div>
+    <div>
+        <button class="btn btn-primary" id="btnWithdrawn">WITHDRAW</button>
+    </div>
+
+
+</div>
+<div id="Customers" class="card-body">
+    <div>
+        <label>Customers details</label>
+
+    </div>
+
+    <table id="CustomerTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>SSN</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>City</th>
+                <th>StreetNo</th>
+                <th>Phone</th>
+                <th>BankerSSN</th>
+                <th>AccountNO</th>
+
+            </tr>
+        </thead>
+    </table>
+    <ul class="nav nav-pills nav-fill">
+        <li class="nav-item">
+            <button id='navDelete' class="nav-link " href="#">Delete Customer</button>
+        </li>
+        <li class="nav-item">
+            <button id='navUpdate' class="nav-link " href="#">Update Customer details</button>
+        </li>
+    </ul>
+    <div class='form-group m-2' id="deleteTab">
+        <label>MENTION CUSTOMER SSN TO DELETE</label>
+        <input type="number" id="deleteSSN" class="form-control" value="">
+        <button class="btn btn-danger m-2" id="deleteCustomer">DELETE</button>
+    </div>
+
+    <div id="updateTab">
+        <button class="btn btn-primary m-2" id="updateCustomer">UPDATE</button>
+        <form>
+            <div class="form-group">
+                <label>
+                    please provide SSN:
+                </label>
+                <input type="number" name="SSN" id="uSSN" placeholder="nine digit SSN" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>
+                    FirstName:
+                </label>
+                <input type="text" name="firstname" id="ufirstname" placeholder="enter first name" class="form-control"
+                    required>
+            </div>
+            <div class="form-group">
+                <label>
+                    LastName:
+                </label>
+                <input type="text" name="lastname" id="ulastname" placeholder="enter last name" class="form-control"
+                    required>
+            </div>
+            <div class="form-group">
+                <label>
+                    City:
+                </label>
+                <input type="text" name="city" id="ucity" placeholder="enter last name" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>
+                    StreetNO:
+                </label>
+                <input type="text" name="street" id="ustreet" placeholder="enter Street no " class="form-control"
+                    required>
+            </div>
+            <div class="form-group">
+                <label>
+                    Phoneno:
+                </label>
+                <input type="text" name="phone" id="uphone" placeholder="enter phone number " class="form-control"
+                    required>
+            </div>
+            <div class="form-group">
+                <label>
+                    BankerSSN:
+                </label>
+                <input type="text" name="BankerSSN" id="uBankerSSN" placeholder="enter BankerSSN " class="form-control"
+                    required>
+            </div>
+            <div class="form-group">
+                <label>
+                    AccountNo:
+                </label>
+                <input type="text" name="Accountno" id="uAccountno" placeholder="enter Accountno " class="form-control"
+                    required>
+            </div>
+
+        </form>
+    </div>
+</div>
+<div id="transactionbody" class="card-body">
+    <div class="m-2">
+        <label>Enter the Account ID :</label>
+        <input type="text" value="" id="transAcntno" placeholder="account no">
+        <button id="custTrans" class="btn btn-primary">PASSBOOK</button>
+    </div>
+    <table id="transactionTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Transaction ID</th>
+                <th>Account ID</th>
+                <th>DATE AND TIME</th>
+                <th>TRANSACTION CODE</th>
+                <th>TRANSACTION NAME</th>
+                <th>DEBIT</th>
+                <th>CREDIT</th>
+                <th>BALANCE</th>
+
+            </tr>
+        </thead>
+    </table>
+    <button id="printLock">Print</button>
+</div>
+
+<div id="newAccount" class="card-body">
+
+    <div class="form-group">
+        <label>
+            please provide SSN:
+        </label>
+        <input type="number" name="SSN" id="SSN" placeholder="nine digit SSN" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label>
+            FirstName:
+        </label>
+        <input type="text" name="firstname" id="firstname" placeholder="enter first name" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label>
+            LastName:
+        </label>
+        <input type="text" name="lastname" id="lastname" placeholder="enter last name" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label>
+            City:
+        </label>
+        <input type="text" name="city" id="city" placeholder="enter last name" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label>
+            StreetNO:
+        </label>
+        <input type="text" name="street" id="street" placeholder="enter Street no " class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label>
+            Phoneno:
+        </label>
+        <input type="text" name="phone" id="phone" placeholder="enter phone number " class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label>
+            BankerSSN:
+        </label>
+        <input type="text" name="BankerSSN" id="BankerSSN" placeholder="enter BankerSSN " class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label>
+            AccountNo:
+        </label>
+        <input type="text" name="Accountno" id="Accountno" placeholder="enter Accountno " class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label>
+            Amount Deposited
+        </label>
+        <input type="number" name="newdeposit" id="newdeposit" class="form-control" required>
+        <h5 id="usercheck" style="color: red;">
+            **minimum deposit of 500
+        </h5>
+    </div>
+
+
+
+
+    <button id="submitbtn" class="btn btn-primary">SUBMIT</button>
+
+</div>
