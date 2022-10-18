@@ -7,4 +7,4 @@ Model,
 View,
 Controller.
   
-Created ajax api calls from view to controller and recieving data from the mysql local db
+Created ajax api calls from view to controller and recieving data from the mysql local db using models
