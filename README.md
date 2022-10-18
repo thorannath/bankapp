@@ -7,7 +7,8 @@ Model,
 View,
 Controller.
   
-Created ajax api calls from view to controller and recieving data from the mysql local db using models
+Created ajax api calls from view to controller and recieving data from the mysql local db using models.
+
 Model Responsibilities
 The Model in an MVC application represents the state of the application and any business logic or operations that should be performed by it. . 
 
